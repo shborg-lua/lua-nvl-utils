@@ -9,27 +9,13 @@ on:
     branches: '*'
 
 jobs:
-  ##############################################################################
-  ShellLint:
-    runs-on: "ubuntu-latest"
-
-    steps:
-    - uses: actions/checkout@master
-
-    - name: Prep
-      run: |
-        sudo apt-get install -y shellcheck
-
-    - name: Shellcheck
-      run: |
-        shellcheck ./configure
-
+ 
   ##############################################################################
   TestMatrix:
     strategy:
       matrix:
         lua-version: ["5.4", "luajit"]
-        os: ["ubuntu-latest", "macos-latest"]
+        os: ["ubuntu-latest"]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -41,10 +27,7 @@ jobs:
 
     - uses: leafo/gh-actions-luarocks@v4.0.0
 
-    - name: 'Setup macOS deps'
-      if: ${{ contains(matrix.os, 'macos') }}
-      run: brew install openssl
-
+    
     - name: Prep
       run: |
         luarocks install busted

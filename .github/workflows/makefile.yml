@@ -32,12 +32,11 @@ jobs:
         luaVersion: ${{ matrix.lua-version }}
     
     - name: Build Environment
-      uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
-        path: |
-          build
-          
-
+        path: build
+        key: ${{ runner.os }}-build-deps
+      
 
     - uses: leafo/gh-actions-luarocks@v4.0.0
 

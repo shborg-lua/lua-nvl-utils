@@ -30,6 +30,14 @@ jobs:
     - uses: leafo/gh-actions-lua@master
       with:
         luaVersion: ${{ matrix.lua-version }}
+    
+    - name: Build Environment
+      uses: actions/cache@v3
+      with:
+        path: |
+          build
+          
+
 
     - uses: leafo/gh-actions-luarocks@v4.0.0
 

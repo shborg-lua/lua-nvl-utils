@@ -19,7 +19,13 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+
+    
     - uses: actions/checkout@master
+    - uses: rhysd/action-setup-vim@v1
+      with:
+        neovim: true
+        version: ${{ matrix.rev }}
 
     - uses: leafo/gh-actions-lua@master
       with:

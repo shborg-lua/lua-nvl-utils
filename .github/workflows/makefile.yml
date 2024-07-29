@@ -32,7 +32,7 @@ jobs:
         luaVersion: ${{ matrix.lua-version }}
     
     - name: Build Environment
-    - uses: actions/cache@v4
+      uses: actions/cache@v4
       with:
         path: build
         key: ${{ runner.os }}-build-deps

@@ -1,6 +1,8 @@
 SHELL := /bin/bash
 DEPS ?= build
 COVERAGE ?= .tmp
+ROCKS_PACKAGE_VERSION := $(shell ./.rocks-version ver)
+ROCKS_PACKAGE_REVISION := $(shell ./.rocks-version rev)
 
 LUA_VERSION ?= luajit 2.1.0-beta3
 NVIM_BIN ?= nvim
@@ -41,6 +43,8 @@ ifndef BUSTED_TAG
 override BUSTED_TAG = unit
 endif
 
+.EXPORT_ALL_VARIABLES:
+
 all: deps
 
 deps: | $(HEREROCKS) $(BUSTED) $(LUAROCKS_DEPS)
@@ -70,6 +74,13 @@ test_nvim: $(BUSTED) $(LUV) $(NLUA)
 	busted --lua="$(NLUA)" --helper=spec/init.lua --run=$(BUSTED_TAG) -o htest spec/tests
 	# busted --lua=$(NLUA) --helper=spec/init.lua -o htest $(BUSTED_ARGS) spec/unit 
 
+
+new-rocks-version: 
+	./.new-rocks-version
+
+rocks-version: 
+	$(info ROCKS_PACKAGE_VERSION is $(ROCKS_PACKAGE_VERSION) - $(ROCKS_PACKAGE_REVISION))
+
 $(HEREROCKS):
 	mkdir -p $(DEPS)
 	curl $(HEREROCKS_URL) -o $@
@@ -92,8 +103,8 @@ $(NLUA): $(LUAROCKS)
 $(LUAROCKS_DEPS): $(LUAROCKS) $(BUSTED_HTEST) $(NLUA)
 	@echo build for $(LUA_VERSION) ......
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
-	luarocks make lua-nvl-utils-scm-1.rockspec
-	luarocks test --prepare lua-nvl-utils-scm-1.rockspec
+	luarocks make lua-nvl-utils-$(ROCKS_PACKAGE_VERSION)-$(ROCKS_PACKAGE_REVISION).rockspec && \
+	luarocks test --prepare lua-nvl-utils-$(ROCKS_PACKAGE_VERSION)-$(ROCKS_PACKAGE_REVISION).rockspec && \
 	touch $(TARGET_DIR)/.deps_installed
 
 
@@ -110,6 +121,6 @@ $(LUV): $(LUAROCKS)
 clean:
 	rm -rf $(DEPS)
 
-.PHONY: all deps clean lint test test_nvim test_lua
+.PHONY: all deps clean lint test test_nvim test_lua rocks-version new-rocks-version
 #
 

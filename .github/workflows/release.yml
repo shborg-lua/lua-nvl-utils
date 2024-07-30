@@ -1,8 +1,6 @@
 name: "release"
-on:
-  push:
-    tags:
-      - "*"
+
+on: [push, pull_request]
 jobs:
   luarocks-upload:
     runs-on: ubuntu-22.04

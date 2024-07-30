@@ -39,5 +39,6 @@ jobs:
 
       - name: Unit test
         run: |
+          mkdir .tmp
           make test
           make coverage

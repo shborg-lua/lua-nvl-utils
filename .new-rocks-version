@@ -1,19 +1,6 @@
 #!/bin/bash
-current_rocks=$(ls lua-nvl-utils-*.rockspec)
-echo "HEREROCKS_ACTIVE: $HEREROCKS_ACTIVE"
+current_rocks=$(ls lua-nvl-utils-?*.?*.?*-?*.rockspec)
 
-source "${TARGET_DIR}/bin/activate" && eval "$(luarocks path)" && luarocks new_version
-echo "deleting old rocks $current_rocks"
-# echo "$HEREROCKS_ACTIVE"
-# s=$(ls lua-nvl-utils-*.rockspec | sort -V | tail -n 1)
-# if [[ "$1" == "ver" ]]; then
-#   if [[ "$s" =~ ^lua-nvl-utils-(scm)-([0-9]+).(rockspec)$ ]]; then
-#     export ROCKS_PACKAGE_VERSION=${BASH_REMATCH[1]}
-#     echo "$ROCKS_PACKAGE_VERSION"
-#   fi
-# elif [[ "$1" == "rev" ]]; then
-#   if [[ "$s" =~ ^lua-nvl-utils-(scm)-([0-9]+).(rockspec)$ ]]; then
-#     export ROCKS_PACKAGE_REVISION=${BASH_REMATCH[2]}
-#     echo "$ROCKS_PACKAGE_REVISION"
-#   fi
-# fi
+source "${TARGET_DIR}/bin/activate" && eval "$(luarocks path)" && luarocks new_version "$current_rocks" && rm -f "$current_rocks"
+
+exit 0

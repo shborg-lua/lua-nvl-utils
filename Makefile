@@ -79,7 +79,7 @@ new-rocks-version:
 	./.new-rocks-version
 
 rocks-version: 
-	$(info ROCKS_PACKAGE_VERSION is $(ROCKS_PACKAGE_VERSION) - $(ROCKS_PACKAGE_REVISION))
+	$(info $(ROCKS_PACKAGE_VERSION)-$(ROCKS_PACKAGE_REVISION))
 
 $(HEREROCKS):
 	mkdir -p $(DEPS)
@@ -101,7 +101,7 @@ $(NLUA): $(LUAROCKS)
 	luarocks install nlua
 
 $(LUAROCKS_DEPS): $(LUAROCKS) $(BUSTED_HTEST) $(NLUA)
-	@echo build for $(LUA_VERSION) ......
+	@echo build for $(LUA_VERSION) $(ROCKS_PACKAGE_VERSION)-$(ROCKS_PACKAGE_REVISION) ......
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
 	luarocks make lua-nvl-utils-$(ROCKS_PACKAGE_VERSION)-$(ROCKS_PACKAGE_REVISION).rockspec && \
 	luarocks test --prepare lua-nvl-utils-$(ROCKS_PACKAGE_VERSION)-$(ROCKS_PACKAGE_REVISION).rockspec && \

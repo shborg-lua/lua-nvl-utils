@@ -61,8 +61,7 @@ coverage_clean:
 coverage: coverage_clean
 	@echo coverage with $(LUA_VERSION) tag=$(BUSTED_TAG) ......
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
-		busted --coverage --lua=$(TARGET_DIR)/bin/lua --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) spec/tests/reload_spec.lua && \
-		luacov -r html
+		busted --coverage --lua=$(TARGET_DIR)/bin/lua --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) spec/tests/reload_spec.lua
 
 
 test_nvim: $(BUSTED) $(LUV) $(NLUA)

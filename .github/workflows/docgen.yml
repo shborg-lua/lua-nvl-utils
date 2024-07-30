@@ -58,7 +58,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MSG: |
-            [docgen] Update doc/telescope.txt
+            [docgen] Update doc/lua-nvl-utils.txt
             skip-checks: true
         run: |
           git config user.email "actions@github"

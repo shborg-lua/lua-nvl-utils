@@ -1,8 +1,5 @@
 name: "tag"
-on:
-  push:
-    branches:
-      - master
+on: [push, pull_request]
 jobs:
   tag:
     runs-on: ubuntu-latest

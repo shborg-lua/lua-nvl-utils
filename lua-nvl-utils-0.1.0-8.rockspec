@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "lua-nvl-utils"
-version = "0.1.0-7"
+version = "0.1.0-8"
 source = {
    url = "https://github.com/shborg-lua/lua-nvl.utils/archive/vscm.zip"
 }

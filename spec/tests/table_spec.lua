@@ -1,3 +1,7 @@
+local assert = assert
+---@cast assert -function,+nvl.test.luassert
+-- require("luacov")
+
 local t = require("spec.helpers.testutil")
 local matches = t.matches
 local ok = t.ok
@@ -7,7 +11,8 @@ local tbl = require("nvl.utils.modules.table")
 local types = require("nvl.utils.modules.types")
 
 --TODO: what todo with this?
-local NIL = vim and vim.NIL or nil
+-- local NIL = vim and vim.NIL or nil
+local NIL = nil
 
 describe("#unit #nvl.utils.table", function()
 	it("tbl.list_contains", function()

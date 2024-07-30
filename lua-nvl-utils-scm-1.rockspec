@@ -1,7 +1,7 @@
 ---@diagnostic disable:lowercase-global
 local MODREV, SPECREV = "scm", "-1"
 rockspec_format = "3.0"
-package = "nvl.utils"
+package = "lua-nvl-utils"
 version = MODREV .. SPECREV
 
 source = {
@@ -28,6 +28,10 @@ dependencies = {
 test_dependencies = {
 	"busted",
 	"busted-htest",
+	"luacov",
+	"luacov-html",
+	"luacov-multiple",
+	"luacov-console",
 }
 test = {
 	type = "busted",
@@ -37,8 +41,12 @@ build = {
 	type = "builtin",
 	modules = {
 
-		-- ["nvl.utils"] = "lua/nvl.utils/init.lua",
-		-- ["nvl.utils.module"] = "lua/nvl.utils/module.lua",
+		["nvl.utils"] = "lua/nvl/utils/init.lua",
+		["nvl.utils.config"] = "lua/nvl/utils/config.lua",
+		["nvl.utils.modules.table"] = "lua/nvl/utils/modules/table.lua",
+		["nvl.utils.modules.types"] = "lua/nvl/utils/modules/types.lua",
+		["nvl.utils.modules.string"] = "lua/nvl/utils/modules/string.lua",
+		["nvl.utils.modules.deepcopy"] = "lua/nvl/utils/modules/deepcopy.lua",
 	},
 	platforms = {},
 	copy_directories = {},

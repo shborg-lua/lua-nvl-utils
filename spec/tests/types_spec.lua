@@ -1,10 +1,11 @@
+local assert = assert
+---@cast assert -function,+nvl.test.luassert
+-- require("luacov")
+
 local types = require("nvl.utils.modules.types")
 
---TODO: what todo with this?
-local NIL = vim and vim.NIL or nil
-
 describe("#unit #nvl.utils.types", function()
-	it("tbl.isarray", function()
+	it("types.isarray", function()
 		assert.True(types.isarray({}))
 		assert.True(types.isarray({ "a", "b", "c" }))
 		assert.False(types.isarray({ "a", "32", a = "hello", b = "baz" }))
@@ -16,7 +17,7 @@ describe("#unit #nvl.utils.types", function()
 		assert.False(types.isarray({ 1, [1.5] = 2, [3] = 3 }))
 	end)
 
-	it("tbl.islist", function()
+	it("types.islist", function()
 		assert.True(types.islist({}))
 		assert.True(types.islist({ "a", "b", "c" }))
 		assert.False(types.islist({ "a", "32", a = "hello", b = "baz" }))

@@ -1,5 +1,5 @@
 return function(options)
-	local busted = require("busted")
+	local busted = require("spec.busted_helper")
 	local handler = require("busted.outputHandlers.utfTerminal")(options)
 
 	local promiseUnhandledError = {}

@@ -20,22 +20,34 @@ jobs:
             install-rg: choco install ripgrep
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: rhysd/action-setup-vim@v1
+      - name: Setup Neovim
+        uses: rhysd/action-setup-vim@v1
         with:
           neovim: true
           version: ${{ matrix.rev }}
 
-      - name: Prepare
-        run: |
-          ${{ matrix.install-rg }}
-          rg --version
+      - name: Setup Lua
+        uses: leafo/gh-actions-lua@master
+        with:
+          luaVersion: ${{ matrix.lua-version }}
 
-          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ../plenary.nvim
-          git clone --depth 1 https://github.com/nvim-tree/nvim-web-devicons ../nvim-web-devicons
+      - name: Prepare cache
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: ${{ runner.os }}-build-deps
 
-      - name: Run tests
+      - name: Setup luarocks
+        uses: leafo/gh-actions-luarocks@v4.0.0
+
+      - name: Unit test
         run: |
-          nvim --version
           make test
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

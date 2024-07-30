@@ -1,0 +1,41 @@
+return {
+
+	configfile = ".luacov",
+
+	-- -- filename to store stats collected
+  statsfile = '.tmp/luacov.stats.out',
+
+	-- -- filename to store report
+  reportfile = '.tmp/luacov.report.out',
+
+  reporter = "multiple",
+  multiple = {
+    reporters = { "default", "multiple.html" },
+    html = {
+      reportfile = ".tmp/report/index.html",
+    },
+  },
+
+	-- -- Run reporter on completion? (won't work for ticks)
+	runreport = true,
+
+	-- Delete stats file after reporting?
+	deletestats = false,
+
+	-- Patterns for files to include when reporting
+	-- all will be included if nothing is listed
+	-- (exclude overrules include, do not include
+	-- the .lua extension)
+  include = {
+    --'^%./lua/nvl/.*'
+  },
+	-- Patterns for files to exclude when reporting
+	-- all will be included if nothing is listed
+	-- (exclude overrules include, do not include
+	-- the .lua extension)
+  exclude = {
+    "build.*$",
+    "spec.*$"
+  },
+
+}

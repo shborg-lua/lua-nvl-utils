@@ -1,5 +1,4 @@
 local luaassert = require("luassert")
-local busted = require("busted")
 local uv = vim and vim.uv or require("luv")
 
 local M = {}

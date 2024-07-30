@@ -7,7 +7,13 @@ return {
 		ROOT = { "spec/" },
 	},
 	default = {
+		tags = { "tests", "unit", "integration", "nvl.unit.types", "nvl.unit.table" },
+		output = "htest",
 		verbose = true,
+		-- ["exclude-pattern"] = "sum_spec", -- do not run spec files inside fixture
+		-- helper = "spec.util.test_env",
+		-- ["auto-insulate"] = false,
+		ROOT = { "spec/tests" },
 	},
 	tests = {
 		tags = { "tests", "unit", "integration" },
@@ -28,5 +34,9 @@ return {
 		tags = "nvl.utils.table",
 		ROOT = { "spec/tests" },
 		verbose = true,
+	},
+	["nvl.utils.reload"] = {
+
+		tags = "nvl.utils.reload",
 	},
 }

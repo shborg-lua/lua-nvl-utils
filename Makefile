@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 DEPS ?= build
+COVERAGE ?= .tmp
 
 LUA_VERSION ?= luajit 2.1.0-beta3
 NVIM_BIN ?= nvim
@@ -23,7 +24,8 @@ LUAROCKS ?= $(TARGET_DIR)/bin/luarocks
 NLUA ?= $(TARGET_DIR)/bin/nlua
 
 BUSTED ?= $(TARGET_DIR)/bin/busted
-BUSTED_HELPER ?= $(PWD)/spec/fixtures/busted.lua
+BUSTED_HELPER ?= $(PWD)/spec/busted_helper.lua
+COVERAGE_HELPER ?= $(PWD)/spec/busted_helper.lua
 
 LUAROCKS_DEPS ?= $(TARGET_DIR)/.deps_installed
 BUSTED_HTEST ?= $(TARGET_DIR)/lib/luarocks/rocks-5.1/busted-htest
@@ -50,7 +52,17 @@ test: test_lua test_nvim
 test_lua: $(BUSTED) $(LUAROCKS_DEPS) $(LUV)
 	@echo Test with $(LUA_VERSION) tag=$(BUSTED_TAG) ......
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
-		lua spec/init.lua --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) -o htest spec/tests
+		lua spec/init.lua --coverage --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) -o htest spec/tests
+
+coverage_clean:
+	rm -fr $(COVERAGE)
+	mkdir $(COVERAGE)
+
+coverage: coverage_clean
+	@echo coverage with $(LUA_VERSION) tag=$(BUSTED_TAG) ......
+	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
+		busted --coverage --lua=$(TARGET_DIR)/bin/lua --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) spec/tests/reload_spec.lua && \
+		luacov -r html
 
 
 test_nvim: $(BUSTED) $(LUV) $(NLUA)
@@ -81,24 +93,24 @@ $(NLUA): $(LUAROCKS)
 $(LUAROCKS_DEPS): $(LUAROCKS) $(BUSTED_HTEST) $(NLUA)
 	@echo build for $(LUA_VERSION) ......
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
-	luarocks make nvl.utils-scm-1.rockspec
+	luarocks make lua-nvl-utils-scm-1.rockspec
+	luarocks test --prepare lua-nvl-utils-scm-1.rockspec
 	touch $(TARGET_DIR)/.deps_installed
-	# $(HEREROCKS_ACTIVE) && luarocks build --only-deps
 
 
 $(LUV): $(LUAROCKS)
 	@$(HEREROCKS_ACTIVE) && [[ ! $$(luarocks which luv) ]] && \
 		luarocks install luv || true
-
-lint:
-	@rm -rf $(LUA_LS)
-	@mkdir -p $(LUA_LS)
-	@lua-language-server --check $(PWD) --checklevel=$(LINT_LEVEL) --logpath=$(LUA_LS)
-	@grep -q '^\[\]\s*$$' $(LUA_LS)/check.json || (cat $(LUA_LS)/check.json && exit 1)
-
+#
+# lint:
+# 	@rm -rf $(LUA_LS)
+# 	@mkdir -p $(LUA_LS)
+# 	@lua-language-server --check $(PWD) --checklevel=$(LINT_LEVEL) --logpath=$(LUA_LS)
+# 	@grep -q '^\[\]\s*$$' $(LUA_LS)/check.json || (cat $(LUA_LS)/check.json && exit 1)
+#
 clean:
 	rm -rf $(DEPS)
 
 .PHONY: all deps clean lint test test_nvim test_lua
-
+#
 

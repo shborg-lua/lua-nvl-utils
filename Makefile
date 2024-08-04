@@ -86,7 +86,7 @@ $(HEREROCKS):
 	curl $(HEREROCKS_URL) -o $@
 
 $(LUAROCKS): $(HEREROCKS)
-	$(HEREROCKS_ENV) python3 $< $(TARGET_DIR) --$(LUA_VERSION) -r latest
+	$(HEREROCKS_ENV) python $< $(TARGET_DIR) --$(LUA_VERSION) -r latest
 
 $(BUSTED): $(LUAROCKS)
 	$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \

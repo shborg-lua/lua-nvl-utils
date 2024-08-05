@@ -1,5 +1,6 @@
 local M = {}
 
-local reload = require("nvl.utils.modules.reload")
+M.reload = require("nvl.utils.modules.reload")
+M.types = require("nvl.utils.modules.types")
 
 return M

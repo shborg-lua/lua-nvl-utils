@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "lua-nvl-utils"
-version = "0.1.0-12"
+version = "0.1.0-13"
 source = {
    url = "https://github.com/shborg-lua/lua-nvl-utils/archive/refs/tags/0.1.0-8.zip"
 }

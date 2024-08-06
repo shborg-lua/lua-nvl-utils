@@ -1,10 +1,8 @@
 ---@class nvl.utils.Config: nvl.utils.ConfigOptions
-local M = {}
+local Config = {}
 
 local deepcopy = require("nvl.utils.modules.deepcopy").deepcopy
 local tbl_deep_extend = require("nvl.utils.modules.table").tbl_deep_extend
-
-M.version = "1.1.0" -- x-release-please-version
 
 ---@class nvl.utils.ConfigOptions
 local defaults = {
@@ -40,11 +38,11 @@ local defaults = {
 local options
 
 ---@param opts? nvl.utils.ConfigOptions
-function M.setup(opts)
+function Config.setup(opts)
 	options = tbl_deep_extend("force", defaults, opts or {}) or {}
 end
 
-setmetatable(M, {
+setmetatable(Config, {
 	__index = function(_, key)
 		if options == nil then
 			return deepcopy(defaults)[key]
@@ -54,4 +52,4 @@ setmetatable(M, {
 	end,
 })
 
-return M
+return Config

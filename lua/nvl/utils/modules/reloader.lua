@@ -36,7 +36,7 @@ reload.matcher_fact = function(module_name, starts_with_only)
 	return matcher
 end
 
-reload.unload_module = function(module_name, starts_with_only, f)
+reload.unload = function(module_name, starts_with_only, f)
 	-- Default to starts with only
 	if starts_with_only == nil then
 		starts_with_only = true
@@ -60,8 +60,8 @@ reload.unload_module = function(module_name, starts_with_only, f)
 	-- end
 end
 
-reload.reload_module = function(module_name, starts_with_only)
-	reload.unload_module(module_name, starts_with_only)
+reload.reload = function(module_name, starts_with_only)
+	reload.unload(module_name, starts_with_only)
 	return require(module_name)
 end
 return reload

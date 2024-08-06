@@ -45,6 +45,10 @@ endif
 
 .EXPORT_ALL_VARIABLES:
 
+help: ## show help message
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+
 all: deps
 
 deps: | $(HEREROCKS) $(BUSTED) $(LUAROCKS_DEPS)
@@ -58,11 +62,11 @@ test_lua: $(BUSTED) $(LUAROCKS_DEPS) $(LUV)
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
 		lua spec/init.lua --coverage --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) -o htest spec/tests
 
-coverage_clean:
+coverage_clean: ## clean coverage data
 	rm -fr $(COVERAGE)
 	mkdir $(COVERAGE)
 
-coverage: coverage_clean
+coverage: coverage_clean ## run coverage
 	@echo coverage with $(LUA_VERSION) tag=$(BUSTED_TAG) ......
 	@$(HEREROCKS_ACTIVE) && eval $$(luarocks path) && \
 		busted --coverage --lua=$(TARGET_DIR)/bin/lua --helper=$(BUSTED_HELPER) --run=$(BUSTED_TAG) spec/tests/reload_spec.lua
